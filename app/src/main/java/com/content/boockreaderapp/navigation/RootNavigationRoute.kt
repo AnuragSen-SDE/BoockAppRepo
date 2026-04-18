@@ -14,4 +14,8 @@ object BookReadingRoute
 @Serializable
 object SplashRoute
 
+@Serializable
+object AllBooksScreenRoute
 
+@Serializable
+object BookmarkedScreenRoute
