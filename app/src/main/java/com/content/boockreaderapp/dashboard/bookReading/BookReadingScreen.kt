@@ -1,4 +1,4 @@
-package com.content.boockreaderapp.bookDetails
+package com.content.boockreaderapp.dashboard.bookReading
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -11,12 +11,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.NavGraph
 import androidx.navigation.NavHostController
 
 @Composable
-fun BookDetailsScreen(
+fun BookReadingScreen(
     navController: NavHostController,
     innerPaddingValues: PaddingValues
 ){
@@ -27,7 +25,7 @@ fun BookDetailsScreen(
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "Book Details Page",
+            text = "Book Reading Page",
             fontSize = 20.sp,
             fontFamily = FontFamily.Monospace,
             fontStyle = FontStyle.Normal

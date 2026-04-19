@@ -16,6 +16,8 @@ import androidx.navigation.compose.rememberNavController
 import com.content.boockreaderapp.navigation.RootNavGraph
 import com.content.boockreaderapp.ui.theme.BoockReaderAppTheme
 import com.content.boockreaderapp.viewmodel.MainViewModel
+import dagger.hilt.android.HiltAndroidApp
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
