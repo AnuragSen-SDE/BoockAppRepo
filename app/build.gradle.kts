@@ -4,15 +4,17 @@ plugins {
     alias(libs.plugins.serializer)
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
     namespace = "com.content.boockreaderapp"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+//    compileSdk {
+//        version = release(36) {
+//            minorApiLevel = 1
+//        }
+//    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.content.boockreaderapp"
