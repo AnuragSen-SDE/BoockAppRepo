@@ -12,6 +12,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import java.io.IOException
 
@@ -31,17 +33,22 @@ class MainViewModel @Inject constructor(
 
     private val _getAllBookState : MutableStateFlow<BookState<List<BookEntity>>> = MutableStateFlow(
         BookState.Loading)
-    val getAllBookState = _getAllBookState.asStateFlow()
+    val getAllBookState : StateFlow<BookState<List<BookEntity>>> = _getAllBookState.asStateFlow()
 
-    fun getAllData() {
+    fun getAllBooks() {
         viewModelScope.launch (Dispatchers.IO) {
-            _getAllBookState.value = BookState.Loading
-            try {
-                val response = repository.getAllBooks()
-                //_getAllBookState.value = BookState.Success(response)
-            }catch (e : IOException){
-
-            }
+            repository.getAllBooks()
+                .onStart {
+                    _getAllBookState.value = BookState.Loading
+                }
+                .catch{ e ->
+                    _getAllBookState.value = BookState.Error(e.message ?: "Something Went Wrong")
+                }
+                .collect {list ->
+                    _getAllBookState.value =
+                        if (list.isEmpty()) BookState.Empty
+                    else BookState.Success(list)
+                }
         }
     }
 }

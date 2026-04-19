@@ -49,7 +49,7 @@ fun RootNavGraph(
 
         composable<BookReadingRoute> { BookReadingScreen(navController,innerPadding) }
 
-        composable<DashboardScreenRoute> { DashboardScreen(navController,innerPadding) }
+        composable<DashboardScreenRoute> { DashboardScreen(viewModel,navController,innerPadding) }
 
     }
 
