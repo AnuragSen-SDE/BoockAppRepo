@@ -8,13 +8,12 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.content.boockreaderapp.bookDetails.BookDetailsScreen
-import com.content.boockreaderapp.bookReading.BookReadingScreen
+import com.content.boockreaderapp.dashboard.bookDetails.BookDetailsScreen
+import com.content.boockreaderapp.dashboard.bookReading.BookReadingScreen
 import com.content.boockreaderapp.dashboard.DashboardScreen
 import com.content.boockreaderapp.splash.SplashScreen
 import com.content.boockreaderapp.viewmodel.AppStateState
 import com.content.boockreaderapp.viewmodel.MainViewModel
-import kotlinx.coroutines.flow.StateFlow
 
 
 @Composable

@@ -11,12 +11,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.content.boockreaderapp.navigation.RootNavGraph
 import com.content.boockreaderapp.ui.theme.BoockReaderAppTheme
 import com.content.boockreaderapp.viewmodel.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +28,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             BoockReaderAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    val mainViewModel : MainViewModel= viewModel()
+                    val mainViewModel : MainViewModel= hiltViewModel()
                     val navController = rememberNavController()
 //                    Greeting(
 //                        name = "Android",
