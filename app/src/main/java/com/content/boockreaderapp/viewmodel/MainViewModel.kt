@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.content.boockreaderapp.data.lolcal.entity.BookEntity
 import com.content.boockreaderapp.data.repository.BookRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -14,6 +15,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.io.IOException
 
+@HiltViewModel
 class MainViewModel @Inject constructor(
     val repository: BookRepository
 ) : ViewModel() {
@@ -36,7 +38,7 @@ class MainViewModel @Inject constructor(
             _getAllBookState.value = BookState.Loading
             try {
                 val response = repository.getAllBooks()
-                _getAllBookState.value = BookState.Success(response)
+                //_getAllBookState.value = BookState.Success(response)
             }catch (e : IOException){
 
             }

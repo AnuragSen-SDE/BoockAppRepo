@@ -5,6 +5,7 @@ import com.content.boockreaderapp.data.lolcal.dao.BookDao
 import com.content.boockreaderapp.data.lolcal.entity.BookEntity
 import javax.inject.Inject
 
+
 class BookRepository @Inject constructor(
     private val bookDao: BookDao
 ) {
