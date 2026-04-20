@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 data class BookEntity(
 
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    val bookId: Int = 0,
 
     @ColumnInfo(name = "book_title")
     val title: String,
@@ -20,5 +20,8 @@ data class BookEntity(
     //val cover: String? = null,
 
     @ColumnInfo(name = "is_started")
-    val isStarted: Boolean = false
+    val isStarted: Boolean = false,
+
+    @ColumnInfo(name = "book_content")
+    val content : String
 )

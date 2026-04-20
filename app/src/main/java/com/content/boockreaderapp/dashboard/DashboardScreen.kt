@@ -18,6 +18,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.content.boockreaderapp.dashboard.AllBooks.AllBooksScreen
 import com.content.boockreaderapp.dashboard.bookmarkedBooks.BookmarkedBookScreen
+import com.content.boockreaderapp.data.lolcal.entity.BookEntity
 import com.content.boockreaderapp.navigation.AllBooksScreenRoute
 import com.content.boockreaderapp.navigation.BookmarkedScreenRoute
 import com.content.boockreaderapp.viewmodel.MainViewModel
@@ -26,7 +27,8 @@ import com.content.boockreaderapp.viewmodel.MainViewModel
 fun DashboardScreen(
     mainViewModel: MainViewModel,
     navController: NavHostController,
-    innerPaddingValues: PaddingValues
+    innerPaddingValues: PaddingValues,
+    navigateToBookDetailScreen : (BookEntity) -> Unit
 ){
     val bottomNavController = rememberNavController()
 
@@ -42,7 +44,7 @@ fun DashboardScreen(
         ) {
 
             composable <AllBooksScreenRoute> {
-                AllBooksScreen( mainViewModel,innerPadding)
+                AllBooksScreen( mainViewModel,innerPadding,navigateToBookDetailScreen)
             }
 
             composable <BookmarkedScreenRoute> { BookmarkedBookScreen(innerPadding) }

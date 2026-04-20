@@ -9,7 +9,8 @@ import com.content.boockreaderapp.data.lolcal.entity.BookEntity
 @Composable
 fun BookListView(
     bookList : List<BookEntity>,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    navigateToBookDetailScreen : (BookEntity) -> Unit
 ){
 
     LazyColumn(
@@ -17,7 +18,7 @@ fun BookListView(
     ) {
         items(bookList) {
             book ->
-            BookListCardView(book)
+            BookListCardView(book,navigateToBookDetailScreen)
         }
     }
 

@@ -20,6 +20,7 @@ fun SplashScreen(
     innerPaddingValues: PaddingValues
 ){
 
+
     Box(
         modifier = Modifier.fillMaxSize()
             .padding(innerPaddingValues),

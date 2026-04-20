@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.content.boockreaderapp.data.lolcal.entity.BookEntity
 import com.content.boockreaderapp.data.repository.BookRepository
+import com.content.boockreaderapp.util.DummyData
+import com.content.boockreaderapp.util.SharedPreferenceManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.Dispatchers
@@ -19,14 +21,19 @@ import java.io.IOException
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    val repository: BookRepository
+    val repository: BookRepository,
+    val preferenceManager: SharedPreferenceManager
 ) : ViewModel() {
+
+
+
     private val _splashScreenState : MutableStateFlow<AppStateState> = MutableStateFlow(AppStateState.SplashScreenState)
     val splashScreenState : StateFlow<AppStateState> get() = _splashScreenState
 
     fun updateSplashState(){
         viewModelScope.launch {
-            delay(1000)
+            //delay(1000)
+            if (!preferenceManager.getIsDataAdded()) repository.addAllBooks(DummyData.getDummyData())
             _splashScreenState.value = AppStateState.Idle
         }
     }
@@ -51,4 +58,21 @@ class MainViewModel @Inject constructor(
                 }
         }
     }
+
+    private val _getBookByIdState : MutableStateFlow<BookState<BookEntity>> = MutableStateFlow(
+        BookState.Loading)
+    val getBookByIdState : StateFlow<BookState<BookEntity>> = _getBookByIdState.asStateFlow()
+
+    fun getBookById(bookId : Int){
+        viewModelScope.launch (Dispatchers.IO) {
+            _getBookByIdState.value = BookState.Loading
+            val response = repository.getBookById(bookId)
+            if (response == null ){
+                _getBookByIdState.value = BookState.Error("Book Not found!!")
+                return@launch
+            }
+            _getBookByIdState.value = BookState.Success(response)
+        }
+    }
+
 }

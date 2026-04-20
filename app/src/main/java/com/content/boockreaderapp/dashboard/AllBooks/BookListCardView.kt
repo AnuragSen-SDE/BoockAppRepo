@@ -1,5 +1,6 @@
 package com.content.boockreaderapp.dashboard.AllBooks
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,14 +25,16 @@ import com.content.boockreaderapp.data.lolcal.entity.BookEntity
 
 @Composable
 fun BookListCardView(
-    bookDetail : BookEntity
+    bookDetail : BookEntity,
+    navigateToBookDetailScreen : (BookEntity) -> Unit
 ){
 
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(8.dp)
+            .clickable(enabled = true, onClick = {navigateToBookDetailScreen.invoke(bookDetail)}),
         elevation = CardDefaults.cardElevation(6.dp)
     ) {
         Column {

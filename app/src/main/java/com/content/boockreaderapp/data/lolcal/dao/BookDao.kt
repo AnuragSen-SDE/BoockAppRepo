@@ -18,4 +18,7 @@ interface BookDao {
     @Query("SELECT * FROM books_table WHERE book_title LIKE '%' || :query || '%' OR author_name LIKE '%' || :query || '%'")
     fun searchBooks(query: String): Flow<List<BookEntity>>
 
+    @Query("SELECT * FROM books_table WHERE bookId = :bookId LIMIT 1")
+    fun getBookById(bookId : Int) : BookEntity?
+
 }

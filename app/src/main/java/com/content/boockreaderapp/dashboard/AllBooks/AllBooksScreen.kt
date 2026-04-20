@@ -22,7 +22,8 @@ import com.content.boockreaderapp.viewmodel.MainViewModel
 @Composable
 fun AllBooksScreen(
     mainViewModel : MainViewModel,
-    innerPaddingValues: PaddingValues
+    innerPaddingValues: PaddingValues,
+    navigateToBookDetailScreen : (BookEntity) -> Unit
 ){
 
     val state by mainViewModel.getAllBookState.collectAsState()
@@ -41,7 +42,9 @@ fun AllBooksScreen(
         is BookState.Success -> {
             BookListView(
                 bookList = (state as BookState.Success<List<BookEntity>>).data,
-                innerPaddingValues)
+                innerPaddingValues,
+                navigateToBookDetailScreen
+                )
         }
     }
 
