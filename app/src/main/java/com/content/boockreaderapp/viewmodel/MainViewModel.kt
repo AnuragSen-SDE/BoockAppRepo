@@ -59,6 +59,23 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun searchBook(query : String ){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.searchBook(query)
+                .onStart {
+                    _getAllBookState.value = BookState.Loading
+                }
+                .catch{ e ->
+                    _getAllBookState.value = BookState.Error(e.message ?: "Something Went Wrong")
+                }
+                .collect {list ->
+                    _getAllBookState.value =
+                        if (list.isEmpty()) BookState.Empty
+                        else BookState.Success(list)
+                }
+        }
+    }
+
     private val _getBookByIdState : MutableStateFlow<BookState<BookEntity>> = MutableStateFlow(
         BookState.Loading)
     val getBookByIdState : StateFlow<BookState<BookEntity>> = _getBookByIdState.asStateFlow()
