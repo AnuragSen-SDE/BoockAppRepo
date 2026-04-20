@@ -23,5 +23,8 @@ data class BookEntity(
     val isStarted: Boolean = false,
 
     @ColumnInfo(name = "book_content")
-    val content : String
+    val content : String,
+
+    @ColumnInfo(name = "is_bookmarked")
+    val isBookmarked : Boolean = false
 )

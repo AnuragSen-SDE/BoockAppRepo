@@ -1,27 +1,24 @@
 package com.content.boockreaderapp.viewmodel
 
-import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.content.boockreaderapp.data.lolcal.entity.BookEntity
-import com.content.boockreaderapp.data.repository.BookRepository
+import com.content.boockreaderapp.data.repository.BookRepositoryImpl
 import com.content.boockreaderapp.util.DummyData
 import com.content.boockreaderapp.util.SharedPreferenceManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import java.io.IOException
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    val repository: BookRepository,
+    val repository: BookRepositoryImpl,
     val preferenceManager: SharedPreferenceManager
 ) : ViewModel() {
 
@@ -89,6 +86,18 @@ class MainViewModel @Inject constructor(
                 return@launch
             }
             _getBookByIdState.value = BookState.Success(response)
+        }
+    }
+
+    private val _geUpdateBookmarkedState : MutableStateFlow<BookState<Int>> = MutableStateFlow(
+        BookState.Loading)
+    val geUpdateBookmarkedState : StateFlow<BookState<Int>> = _geUpdateBookmarkedState.asStateFlow()
+
+    fun updateBookmarkedState(bookId : Int, isBookmarked : Boolean ){
+        viewModelScope.launch (Dispatchers.IO) {
+            _geUpdateBookmarkedState.value = BookState.Loading
+            val response = repository.updateBookmarkState(bookId,isBookmarked)
+            _geUpdateBookmarkedState.value = BookState.Success(response)
         }
     }
 

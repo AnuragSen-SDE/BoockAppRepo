@@ -1,7 +1,6 @@
 package com.content.boockreaderapp.di
 
-import com.content.boockreaderapp.data.lolcal.dao.BookDao
-import com.content.boockreaderapp.data.repository.BookRepository
+import com.content.boockreaderapp.data.repository.BookRepositoryImpl
 import com.content.boockreaderapp.util.SharedPreferenceManager
 import com.content.boockreaderapp.viewmodel.MainViewModel
 import dagger.Module
@@ -16,7 +15,7 @@ object ViewmodelModule {
     @Provides
     @Singleton
     fun provideMainViewModel(
-        repository: BookRepository,
+        repository: BookRepositoryImpl,
         sharedPreferenceManager: SharedPreferenceManager
     ): MainViewModel {
         return MainViewModel(repository,sharedPreferenceManager)

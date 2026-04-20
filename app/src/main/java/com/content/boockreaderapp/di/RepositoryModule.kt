@@ -2,7 +2,7 @@ package com.content.boockreaderapp.di
 
 import android.content.Context
 import com.content.boockreaderapp.data.lolcal.dao.BookDao
-import com.content.boockreaderapp.data.repository.BookRepository
+import com.content.boockreaderapp.data.repository.BookRepositoryImpl
 import com.content.boockreaderapp.util.SharedPreferenceManager
 import dagger.Module
 import dagger.Provides
@@ -19,8 +19,8 @@ object RepositoryModule {
     @Singleton
     fun provideBookRepository(
         bookDao: BookDao
-    ): BookRepository {
-        return BookRepository(bookDao)
+    ): BookRepositoryImpl {
+        return BookRepositoryImpl(bookDao)
     }
 
     @Provides
