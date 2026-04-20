@@ -8,6 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.content.boockreaderapp.dashboard.bookDetails.BookDetailsScreen
 import com.content.boockreaderapp.dashboard.bookReading.BookReadingScreen
 import com.content.boockreaderapp.dashboard.DashboardScreen
@@ -45,11 +46,36 @@ fun RootNavGraph(
             SplashScreen(navController,innerPadding)
         }
 
-        composable<BookDetailsRoute> { BookDetailsScreen(navController,innerPadding) }
+        composable<BookDetailsRoute> { backstackEntry ->
+            val args = backstackEntry.toRoute<BookDetailsRoute>()
+            BookDetailsScreen(
+                bookId = args.bookId,
+                navController,
+                innerPadding,
+                viewModel
+            ){
+                bookid ->
+                navController.navigate(BookReadingRoute(bookid))
+            }
 
-        composable<BookReadingRoute> { BookReadingScreen(navController,innerPadding) }
+        }
 
-        composable<DashboardScreenRoute> { DashboardScreen(navController,innerPadding) }
+        composable<BookReadingRoute> { backStackEntry ->
+            val args = backStackEntry.toRoute<BookReadingRoute>()
+            BookReadingScreen(
+                navController,
+                innerPadding,
+                args.bookId,
+                viewModel
+            )
+        }
+
+        composable<DashboardScreenRoute> {
+            DashboardScreen(viewModel,navController,innerPadding){
+                book ->
+                navController.navigate(BookDetailsRoute(book.bookId))
+            }
+        }
 
     }
 

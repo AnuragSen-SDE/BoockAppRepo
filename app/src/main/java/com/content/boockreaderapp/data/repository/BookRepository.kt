@@ -15,4 +15,5 @@ class BookRepository @Inject constructor(
 
     fun getAllBooks() = bookDao.getAllBooks()
     fun searchBook(query : String ) = bookDao.searchBooks(query)
+    fun getBookById(bookId : Int) = bookDao.getBookById(bookId)
 }

@@ -1,15 +1,20 @@
 package com.content.boockreaderapp.navigation
 
+import com.content.boockreaderapp.data.lolcal.entity.BookEntity
 import kotlinx.serialization.Serializable
 
 @Serializable
 object DashboardScreenRoute
 
 @Serializable
-object BookDetailsRoute
+data class BookDetailsRoute (
+    val bookId : Int
+)
 
 @Serializable
-object BookReadingRoute
+data class BookReadingRoute (
+    val bookId : Int
+)
 
 @Serializable
 object SplashRoute
