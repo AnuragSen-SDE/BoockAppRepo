@@ -27,4 +27,7 @@ interface BookDao {
     @Query("UPDATE books_table SET is_bookmarked = :isBookmarked WHERE bookId = :bookId")
     fun updateBookmarkState(bookId : Int, isBookmarked : Boolean) : Int
 
+    @Query("UPDATE books_table SET is_started = :isStarted WHERE  bookId = :bookId")
+    fun updateReadingState(bookId : Int ,isStarted : Boolean) : Int
+
 }

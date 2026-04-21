@@ -19,4 +19,7 @@ class BookRepositoryImpl @Inject constructor(
     fun  updateBookmarkState(bookId : Int, isBookmarked : Boolean ) : Int {
        return bookDao.updateBookmarkState(bookId,isBookmarked)
     }
+    fun  updateReadingState(bookId : Int, isStarted : Boolean ) : Int {
+        return bookDao.updateReadingState(bookId,isStarted)
+    }
 }

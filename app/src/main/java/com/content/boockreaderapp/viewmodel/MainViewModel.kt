@@ -112,6 +112,28 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    private val _geUpdateReadingState : MutableStateFlow<ReadingState> = MutableStateFlow(
+        ReadingState.Idle)
+    val geUpdateReadingState : StateFlow<ReadingState> = _geUpdateReadingState.asStateFlow()
+
+    fun updateReadingState(bookId : Int ){
+        viewModelScope.launch (Dispatchers.IO) {
+            _geUpdateReadingState.value = ReadingState.Loading
+            try {
+                val response = repository.updateReadingState(bookId,true)
+                if (response > 0 ){
+                    _geUpdateReadingState.value = ReadingState.Success
+                }else{
+                    _geUpdateReadingState.value = ReadingState.Error("Unable To Update bookmarked State")
+                }
+
+            }catch (e : IOException){
+                _geUpdateReadingState.value = ReadingState.Error(e.message ?: "Something Went Wrong")
+            }
+
+        }
+    }
+
     private val _getAllBookmarkedBookState : MutableStateFlow<BookState<List<BookEntity>>> = MutableStateFlow(
         BookState.Loading)
     val getAllBookmarkedBookState : StateFlow<BookState<List<BookEntity>>> = _getAllBookmarkedBookState.asStateFlow()
