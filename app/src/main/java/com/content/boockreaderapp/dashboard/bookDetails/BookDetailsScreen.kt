@@ -48,6 +48,7 @@ fun BookDetailsScreen(
             BookDetailsContentScreen(
                 innerPaddingValues,
                 (state.value as BookState.Success<BookEntity>).data,
+                mainViewModel,
                 navigateToBookReadingScreen
             )
         }

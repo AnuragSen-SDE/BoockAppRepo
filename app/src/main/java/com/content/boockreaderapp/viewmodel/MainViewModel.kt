@@ -1,16 +1,14 @@
 package com.content.boockreaderapp.viewmodel
 
-import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.content.boockreaderapp.data.lolcal.entity.BookEntity
-import com.content.boockreaderapp.data.repository.BookRepository
+import com.content.boockreaderapp.data.repository.BookRepositoryImpl
 import com.content.boockreaderapp.util.DummyData
 import com.content.boockreaderapp.util.SharedPreferenceManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,7 +19,7 @@ import java.io.IOException
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    val repository: BookRepository,
+    val repository: BookRepositoryImpl,
     val preferenceManager: SharedPreferenceManager
 ) : ViewModel() {
 
@@ -89,6 +87,28 @@ class MainViewModel @Inject constructor(
                 return@launch
             }
             _getBookByIdState.value = BookState.Success(response)
+        }
+    }
+
+    private val _geUpdateBookmarkedState : MutableStateFlow<BookmarkState> = MutableStateFlow(
+        BookmarkState.Idal)
+    val geUpdateBookmarkedState : StateFlow<BookmarkState> = _geUpdateBookmarkedState.asStateFlow()
+
+    fun updateBookmarkedState(bookId : Int, isBookmarked : Boolean ){
+        viewModelScope.launch (Dispatchers.IO) {
+            _geUpdateBookmarkedState.value = BookmarkState.Loading
+            try {
+                val response = repository.updateBookmarkState(bookId,isBookmarked)
+                if (response > 0 ){
+                    _geUpdateBookmarkedState.value = BookmarkState.BookmarkUpdate(isBookmarked)
+                }else{
+                    _geUpdateBookmarkedState.value = BookmarkState.Error("Unable To Update bookmarked State")
+                }
+
+            }catch (e : IOException){
+                _geUpdateBookmarkedState.value = BookmarkState.Error("Something Went Wrong")
+            }
+
         }
     }
 
