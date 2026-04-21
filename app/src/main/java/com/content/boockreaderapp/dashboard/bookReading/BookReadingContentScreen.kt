@@ -83,7 +83,7 @@ fun BookReadingContentScreen(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
 
-                        Text("Dark Mode", fontSize = 12.sp)
+                        Text("Dark Mode", fontSize = 12.sp,style = MaterialTheme.typography.titleMedium)
 
                         Switch(
                             checked = darkMode,
