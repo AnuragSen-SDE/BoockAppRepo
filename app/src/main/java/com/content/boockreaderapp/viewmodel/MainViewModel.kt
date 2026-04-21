@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import java.io.IOException
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
@@ -89,15 +90,25 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private val _geUpdateBookmarkedState : MutableStateFlow<BookState<Int>> = MutableStateFlow(
-        BookState.Loading)
-    val geUpdateBookmarkedState : StateFlow<BookState<Int>> = _geUpdateBookmarkedState.asStateFlow()
+    private val _geUpdateBookmarkedState : MutableStateFlow<BookmarkState> = MutableStateFlow(
+        BookmarkState.Idal)
+    val geUpdateBookmarkedState : StateFlow<BookmarkState> = _geUpdateBookmarkedState.asStateFlow()
 
     fun updateBookmarkedState(bookId : Int, isBookmarked : Boolean ){
         viewModelScope.launch (Dispatchers.IO) {
-            _geUpdateBookmarkedState.value = BookState.Loading
-            val response = repository.updateBookmarkState(bookId,isBookmarked)
-            _geUpdateBookmarkedState.value = BookState.Success(response)
+            _geUpdateBookmarkedState.value = BookmarkState.Loading
+            try {
+                val response = repository.updateBookmarkState(bookId,isBookmarked)
+                if (response > 0 ){
+                    _geUpdateBookmarkedState.value = BookmarkState.BookmarkUpdate(isBookmarked)
+                }else{
+                    _geUpdateBookmarkedState.value = BookmarkState.Error("Unable To Update bookmarked State")
+                }
+
+            }catch (e : IOException){
+                _geUpdateBookmarkedState.value = BookmarkState.Error("Something Went Wrong")
+            }
+
         }
     }
 
