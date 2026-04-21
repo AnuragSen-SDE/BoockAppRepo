@@ -1,5 +1,6 @@
 package com.content.boockreaderapp.dashboard.AllBooks
 
+import android.util.Log
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -12,6 +13,8 @@ fun BookListView(
     paddingValues: PaddingValues,
     navigateToBookDetailScreen : (BookEntity) -> Unit
 ){
+
+    Log.d("bookEntityData", "data - $bookList")
 
     LazyColumn(
         contentPadding = paddingValues
