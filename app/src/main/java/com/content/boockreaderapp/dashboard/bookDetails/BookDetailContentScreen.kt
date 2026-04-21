@@ -1,5 +1,6 @@
 package com.content.boockreaderapp.dashboard.bookDetails
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +17,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -48,7 +50,12 @@ fun BookDetailsContentScreen(
     val context = LocalContext.current
     val state by mainViewModel.geUpdateBookmarkedState.collectAsState()
     var isLoading by remember { mutableStateOf(false) }
+    Log.d("bookEntityData"," isBookmarked : ${book.isBookmarked}")
     var isBookmarked by remember { mutableStateOf(book.isBookmarked) }
+
+    LaunchedEffect(Unit) {
+        isBookmarked = book.isBookmarked
+    }
 
     when(val currentState = state) {
         BookmarkState.Loading -> {

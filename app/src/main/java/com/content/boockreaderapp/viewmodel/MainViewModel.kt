@@ -112,4 +112,30 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    private val _getAllBookmarkedBookState : MutableStateFlow<BookState<List<BookEntity>>> = MutableStateFlow(
+        BookState.Loading)
+    val getAllBookmarkedBookState : StateFlow<BookState<List<BookEntity>>> = _getAllBookmarkedBookState.asStateFlow()
+
+    fun getAllBookmarkedBooks() {
+        viewModelScope.launch (Dispatchers.IO) {
+            try {
+                repository.getAllBookmarkedBooks()
+                    .onStart {
+                        _getAllBookmarkedBookState.value = BookState.Loading
+                    }
+                    .catch{ e ->
+                        _getAllBookmarkedBookState.value = BookState.Error(e.message ?: "Something Went Wrong")
+                    }
+                    .collect {list ->
+                        _getAllBookmarkedBookState.value =
+                            if (list.isEmpty()) BookState.Empty
+                            else BookState.Success(list)
+                    }
+            }catch (e : IOException){
+                _getAllBookmarkedBookState.value = BookState.Error(e.message ?: "Something Went Wrong")
+            }
+
+        }
+    }
+
 }

@@ -47,7 +47,13 @@ fun DashboardScreen(
                 AllBooksScreen( mainViewModel,innerPadding,navigateToBookDetailScreen)
             }
 
-            composable <BookmarkedScreenRoute> { BookmarkedBookScreen(innerPadding) }
+            composable <BookmarkedScreenRoute> {
+                BookmarkedBookScreen(
+                    innerPadding,
+                    mainViewModel,
+                    navigateToBookDetailScreen
+                )
+            }
 
         }
 
