@@ -19,12 +19,15 @@ interface BookDao {
     fun searchBooks(query: String): Flow<List<BookEntity>>
 
     @Query("SELECT * FROM books_table WHERE bookId = :bookId LIMIT 1")
-    fun getBookById(bookId : Int) : BookEntity?
+    fun getBookById(bookId : Int) : Flow<BookEntity?>
 
     @Query("SELECT * FROM books_table WHERE is_bookmarked = 1")
     fun getAllBookmarkedBooks() : Flow<List<BookEntity>>
 
     @Query("UPDATE books_table SET is_bookmarked = :isBookmarked WHERE bookId = :bookId")
     fun updateBookmarkState(bookId : Int, isBookmarked : Boolean) : Int
+
+    @Query("UPDATE books_table SET is_started = :isStarted WHERE  bookId = :bookId")
+    fun updateReadingState(bookId : Int ,isStarted : Boolean) : Int
 
 }

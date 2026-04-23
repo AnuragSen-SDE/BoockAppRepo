@@ -7,16 +7,25 @@ import javax.inject.Inject
 
 class BookRepositoryImpl @Inject constructor(
     private val bookDao: BookDao
-) {
-    suspend fun addAllBooks( books : List<BookEntity>) {
+) : BookRepository {
+
+    override suspend fun addAllBooks(books: List<BookEntity>) {
         bookDao.insertAllBooks(books)
     }
 
-    fun getAllBooks() = bookDao.getAllBooks()
-    fun searchBook(query : String ) = bookDao.searchBooks(query)
-    fun getBookById(bookId : Int) = bookDao.getBookById(bookId)
-    fun getAllBookmarkedBooks() = bookDao.getAllBookmarkedBooks()
-    fun  updateBookmarkState(bookId : Int, isBookmarked : Boolean ) : Int {
-       return bookDao.updateBookmarkState(bookId,isBookmarked)
+    override fun getAllBooks() = bookDao.getAllBooks()
+
+    override fun searchBook(query: String) = bookDao.searchBooks(query)
+
+    override fun getBookById(bookId: Int) = bookDao.getBookById(bookId)
+
+    override fun getAllBookmarkedBooks() = bookDao.getAllBookmarkedBooks()
+
+    override suspend fun updateBookmarkState(bookId: Int, isBookmarked: Boolean): Int {
+        return bookDao.updateBookmarkState(bookId, isBookmarked)
+    }
+
+    override suspend fun updateReadingState(bookId: Int, isStarted: Boolean): Int {
+        return bookDao.updateReadingState(bookId, isStarted)
     }
 }
