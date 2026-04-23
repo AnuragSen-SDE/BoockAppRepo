@@ -1,8 +1,10 @@
 package com.content.boockreaderapp.viewmodel
 
+import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.content.boockreaderapp.data.lolcal.entity.BookEntity
+import com.content.boockreaderapp.data.repository.BookRepository
 import com.content.boockreaderapp.data.repository.BookRepositoryImpl
 import com.content.boockreaderapp.util.DummyData
 import com.content.boockreaderapp.util.SharedPreferenceManager
@@ -19,7 +21,7 @@ import java.io.IOException
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    val repository: BookRepositoryImpl,
+    val repository: BookRepository,
     val preferenceManager: SharedPreferenceManager
 ) : ViewModel() {
 
@@ -81,12 +83,15 @@ class MainViewModel @Inject constructor(
     fun getBookById(bookId : Int){
         viewModelScope.launch (Dispatchers.IO) {
             _getBookByIdState.value = BookState.Loading
-            val response = repository.getBookById(bookId)
-            if (response == null ){
-                _getBookByIdState.value = BookState.Error("Book Not found!!")
-                return@launch
-            }
-            _getBookByIdState.value = BookState.Success(response)
+            repository.getBookById(bookId)
+                .collect { response ->
+                    if (response == null ){
+                        _getBookByIdState.value = BookState.Error("Book Not found!!")
+                        return@collect
+                    }
+                    _getBookByIdState.value = BookState.Success(response)
+                }
+
         }
     }
 
